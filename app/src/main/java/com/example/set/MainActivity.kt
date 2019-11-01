@@ -2,6 +2,7 @@ package com.example.set
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private val deck : Deck = Deck()
     private val mapper : Mapper = Mapper()
+    private var selectedCards : MutableList<String> = mutableListOf()
     private lateinit var card1 : ImageView
     private lateinit var card2 : ImageView
     private lateinit var card3 : ImageView
@@ -26,8 +28,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeBoard()
     {
-        yesButton = findViewById(R.id.set_button)
-        yesButton.setOnClickListener{ yesButton() }
+        card1 = findViewById(R.id.card1)
+        card1.setOnClickListener(cardSelected())
+        card2 = findViewById(R.id.card2)
+        card2.setOnClickListener(cardSelected())
+        card3 = findViewById(R.id.card3)
+        card3.setOnClickListener(cardSelected())
         noButton = findViewById(R.id.not_set_button)
         noButton.setOnClickListener{ noButton() }
         refillCards()
@@ -56,15 +62,28 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun yesButton()
+    private fun cardSelected() : View.OnClickListener
+    {
+        //TODO: handle de-selecting when board size increased
+        val clickListener = View.OnClickListener {view ->
+            selectedCards.add(view.tag.toString())
+            if(selectedCards.size == 3){
+                validateCards()
+            }
+        }
+        return clickListener
+    }
+
+    private fun validateCards()
     {
         val resultText : TextView = findViewById(R.id.set_result)
-        if(isSet(card1.tag.toString(), card2.tag.toString(), card3.tag.toString()))
+        if(isSet(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
             resultText.text = "Correct!"
             refillCards()
         }
         else resultText.text = "Nope, is not a set"
+        selectedCards = mutableListOf()
     }
 
     private fun noButton()
