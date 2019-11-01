@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Set</string>
+    <string name="title">Play Set</string>
+    <string name="yes_a_set">Yes, a set</string>
+    <string name="not_a_set">Not a set</string>
+    <string name="card1">Card1</string>
+    <string name="card2">Card2</string>
+    <string name="card3">Card3</string>
+</resources>
