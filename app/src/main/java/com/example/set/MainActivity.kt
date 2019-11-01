@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.set.models.Deck
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val deck : Deck = Deck()
     private lateinit var card1 : ImageView
     private lateinit var card2 : ImageView
     private lateinit var card3 : ImageView
@@ -53,6 +55,15 @@ class MainActivity : AppCompatActivity() {
         yesButton.setOnClickListener{ yesButton() }
         noButton = findViewById(R.id.not_set_button)
         noButton.setOnClickListener{ noButton() }
+
+        val resultText : TextView = findViewById(R.id.set_result)
+        val testDeck = deck.drawCards()
+        if (testDeck.isNotEmpty()){
+            resultText.text = testDeck.joinToString(";")
+        }
+        else{
+            resultText.text = "No more cards left!"
+        }
     }
 
     private fun yesButton()
