@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,7 +14,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var card3 : ImageView
     private lateinit var yesButton : Button
     private lateinit var noButton : Button
-    private val styles = listOf(R.color.colorBlueBlack, R.color.colorSunflower, R.color.colorGreenery)
+    private val cards = listOf(
+        R.drawable.six_hollow_orange_rectangle,
+        R.drawable.six_hollow_blue_circle,
+        R.drawable.six_hollow_green_diamond,
+        R.drawable.three_striped_orange_rectangle,
+        R.drawable.three_striped_blue_circle,
+        R.drawable.three_striped_green_diamond,
+        R.drawable.one_solid_orange_rectangle,
+        R.drawable.one_solid_blue_circle,
+        R.drawable.one_solid_green_diamond)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,24 +34,20 @@ class MainActivity : AppCompatActivity() {
     private fun initializeBoard()
     {
         val random = Random()
-        val first = random.nextInt(styles.size)
-        val second = random.nextInt(styles.size)
-        val third = random.nextInt(styles.size)
+        val first = random.nextInt(cards.size)
         card1 = findViewById(R.id.card1)
-        card1.setImageResource(R.drawable.six_hollow_orange_rectangle)
-        card1.tag = "six_hollow_orange_rectangle"
-        //card1.setBackgroundResource(styles[first])
-        //card1.tag = styles[first].toString()
+        card1.setImageResource(cards[first])
+        card1.tag = cardToTag(cards[first])
+
+        val second = random.nextInt(cards.size)
         card2= findViewById(R.id.card2)
-        card2.setImageResource(R.drawable.one_solid_green_diamond)
-        card2.tag = "one_solid_green_diamond"
-        //card2.setBackgroundResource(styles[second])
-        //card2.tag = styles[second].toString()
+        card2.setImageResource(cards[second])
+        card2.tag = cardToTag(cards[second])
+
+        val third = random.nextInt(cards.size)
         card3 = findViewById(R.id.card3)
-        card3.setImageResource(R.drawable.three_striped_blue_circle)
-        card3.tag = "three_striped_blue_circle"
-        //card3.setBackgroundResource(styles[third])
-        //card3.tag = styles[third].toString()
+        card3.setImageResource(cards[third])
+        card3.tag = cardToTag(cards[third])
 
         yesButton = findViewById(R.id.set_button)
         yesButton.setOnClickListener{ yesButton() }
@@ -57,20 +61,20 @@ class MainActivity : AppCompatActivity() {
         if(isSet(card1.tag.toString(), card2.tag.toString(), card3.tag.toString()))
         {
             resultText.text = "Correct!"
+            initializeBoard()
         }
         else resultText.text = "Nope, is not a set"
-
     }
 
     private fun noButton()
     {
         val resultText : TextView = findViewById(R.id.set_result)
-        if(isSet(card1.tag.toString(), card2.tag.toString(), card3.tag.toString()))
+        if(!isSet(card1.tag.toString(), card2.tag.toString(), card3.tag.toString()))
         {
-            resultText.text = "It's actually a set"
+            resultText.text = "Correct -- not a set"
+            initializeBoard()
         }
-        else resultText.text = "Correct -- not a set"
-
+        else resultText.text = "Actually, it's a set"
     }
 
     private fun isSet(card1: String, card2: String, card3: String) : Boolean
@@ -88,6 +92,22 @@ class MainActivity : AppCompatActivity() {
     {
         return (attr1 == attr2 && attr2 == attr3) ||
                 (attr1 != attr2 && attr2 != attr3 && attr1 != attr3)
+    }
+
+    private fun cardToTag(resource : Int) : String
+    {
+        when(resource){
+            R.drawable.one_solid_orange_rectangle      -> return "one_solid_orange_rectangle"
+            R.drawable.one_solid_blue_circle           -> return "one_solid_blue_circle"
+            R.drawable.one_solid_green_diamond         -> return "one_solid_green_diamond"
+            R.drawable.three_striped_orange_rectangle  -> return "three_striped_orange_rectangle"
+            R.drawable.three_striped_blue_circle       -> return "three_striped_blue_circle"
+            R.drawable.three_striped_green_diamond     -> return "three_striped_green_diamond"
+            R.drawable.six_hollow_orange_rectangle     -> return "six_hollow_orange_rectangle"
+            R.drawable.six_hollow_blue_circle          -> return "six_hollow_blue_circle"
+            R.drawable.six_hollow_green_diamond        -> return "six_hollow_green_diamond"
+        }
+        return "empty_empty_empty_empty"
     }
 
 
