@@ -10,14 +10,14 @@ class DeckTests {
     @Test
     fun uniqueDeck_isCreated() {
         val d = Deck()
-        val cardSet : Set<String> = d.deck.toSet()
+        val cardSet : Set<String> = d.cards.toSet()
         assertEquals(81, cardSet.size)
     }
 
     @Test
     fun firstThreeCards_areRemoved() {
         val deck = Deck()
-        val d = deck.deck
+        val d = deck.cards
         val card1 = d[80]
         val card2 = d[79]
         val card3 = d[78]
@@ -32,7 +32,7 @@ class DeckTests {
     @Test
     fun lastThreeCards_areRemoved() {
         val deck = Deck()
-        val d = deck.deck
+        val d = deck.cards
         val card3 = d[2]
         val card2 = d[1]
         val card1 = d[0]
@@ -50,7 +50,7 @@ class DeckTests {
     @Test
     fun drawFromEmptyDeck_returnsEmpty() {
         val deck = Deck()
-        val d = deck.deck
+        val d = deck.cards
         for (i in 1..27){
             deck.drawCards()
         }

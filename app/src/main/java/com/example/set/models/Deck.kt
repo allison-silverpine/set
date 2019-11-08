@@ -2,13 +2,13 @@ package com.example.set.models
 
 
 class Deck{
-    lateinit var deck : MutableList<String>
+    lateinit var cards : MutableList<String>
         private set
 
     init{ createDeck() }
 
     private fun createDeck() {
-        deck = mutableListOf()
+        cards = mutableListOf()
         val numbers = listOf("one", "three", "six")
         val patterns = listOf("solid", "hollow", "striped")
         val colors = listOf("orange", "blue", "green")
@@ -18,19 +18,19 @@ class Deck{
             for (pattern in patterns){
                 for (color in colors){
                     for (shape in shapes){
-                        deck.add(listOf(number, pattern, color, shape).joinToString("_"))
+                        cards.add(listOf(number, pattern, color, shape).joinToString("_"))
                     }
                 }
             }
         }
-        deck.shuffle()
+        cards.shuffle()
     }
 
     fun drawCards() : List<String>{
-        if ( deck.size == 0) return listOf()
-        val card1 = deck.removeAt(deck.size-1)
-        val card2 = deck.removeAt(deck.size-1)
-        val card3 = deck.removeAt(deck.size-1)
+        if ( cards.size == 0) return listOf()
+        val card1 = cards.removeAt(cards.size-1)
+        val card2 = cards.removeAt(cards.size-1)
+        val card3 = cards.removeAt(cards.size-1)
         return listOf(card1, card2, card3)
     }
 }
