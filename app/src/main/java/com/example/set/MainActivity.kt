@@ -1,20 +1,17 @@
 package com.example.set
 
-import android.media.Image
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.set.models.Board
-import com.example.set.models.Deck
 import com.example.set.models.Mapper
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-   // private val deck = Deck()
     private val board = Board()
     private val mapper = Mapper()
     private var selectedCards : MutableList<String> = mutableListOf()
@@ -57,11 +54,24 @@ class MainActivity : AppCompatActivity() {
         card12 = findViewById(cardIds[11])
         images= arrayListOf(card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12)
 
-        for (i in 0 until images.size){
-            images[i].setOnClickListener(cardSelected())
-        }
         noButton = findViewById(R.id.not_set_button)
         noButton.setOnClickListener{ noButton() }
+        for (i in 0 until images.size){
+            images[i].setOnClickListener{
+                if (selectedCards.size < 3) {
+                    if (selectedCards.contains(it.tag.toString())) {
+                        selectedCards.remove(it.tag.toString())
+                        images[i].setColorFilter(Color.argb(0, 0, 0, 0))
+                    } else {
+                        images[i].setColorFilter(Color.argb(50,0,0,0))
+                        selectedCards.add(it.tag.toString())
+                        if (selectedCards.size == 3) {
+                            Handler().postDelayed({validateCards()},700)
+                        }
+                    }
+                }
+            }
+        }
         fillBoard()
     }
 
@@ -86,18 +96,6 @@ class MainActivity : AppCompatActivity() {
         return card
     }
 
-    private fun cardSelected() : View.OnClickListener
-    {
-        //TODO: handle de-selecting when board size increased
-        val clickListener = View.OnClickListener {view ->
-            selectedCards.add(view.tag.toString())
-            if(selectedCards.size == 3){
-                validateCards()
-            }
-        }
-        return clickListener
-    }
-
     private fun validateCards()
     {
         val resultText : TextView = findViewById(R.id.set_result)
@@ -107,7 +105,16 @@ class MainActivity : AppCompatActivity() {
             //refillCards()
         }
         else resultText.text = "Nope, is not a set"
+        changeSelectedCardsFilter(Color.argb(0,0,0,0))
         selectedCards = mutableListOf()
+    }
+
+    private fun changeSelectedCardsFilter(color : Int){
+        for(cardTag in selectedCards){
+            val imageIndex  = images.indexOfFirst { it.tag.toString() == cardTag }
+            if(imageIndex >= 0)
+                images[imageIndex].setColorFilter(color)
+        }
     }
 
     private fun noButton()
