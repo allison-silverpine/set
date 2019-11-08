@@ -48,15 +48,15 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             card1 = findViewById(R.id.card1)
-            card1.setImageResource(mapper.tagToResource(tags[0]))
+            card1.setImageResource(mapper.tagToResource.getValue(tags[0]))
             card1.tag = tags[0]
 
             card2= findViewById(R.id.card2)
-            card2.setImageResource(mapper.tagToResource(tags[1]))
+            card2.setImageResource(mapper.tagToResource.getValue(tags[1]))
             card2.tag = tags[1]
 
             card3 = findViewById(R.id.card3)
-            card3.setImageResource(mapper.tagToResource(tags[2]))
+            card3.setImageResource(mapper.tagToResource.getValue(tags[2]))
             card3.tag = tags[2]
         }
 

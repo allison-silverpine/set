@@ -1,9 +1,9 @@
 package com.example.set.models
 
-import java.util.*
 
 class Deck{
-    private lateinit var deck : MutableList<String>
+    lateinit var deck : MutableList<String>
+        private set
 
     init{ createDeck() }
 
