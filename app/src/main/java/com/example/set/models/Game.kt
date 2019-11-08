@@ -1,6 +1,6 @@
 package com.example.set.models
 
-class Board{
+class Game{
     var deck = Deck()
         private set
     var board: MutableList<String>
@@ -48,6 +48,10 @@ class Board{
     {
         return (attr1 == attr2 && attr2 == attr3) ||
                 (attr1 != attr2 && attr2 != attr3 && attr1 != attr3)
+    }
+
+    fun makeGuess(card1: String, card2: String, card3: String){
+       //TODO
     }
 
     fun boardContainsCards(card1: String, card2: String, card3: String) : Boolean {

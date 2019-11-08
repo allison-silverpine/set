@@ -7,12 +7,12 @@ import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.set.models.Board
+import com.example.set.models.Game
 import com.example.set.models.Mapper
 
 class MainActivity : AppCompatActivity() {
 
-    private val board = Board()
+    private val game = Game()
     private val mapper = Mapper()
     private var selectedCards : MutableList<String> = mutableListOf()
     private lateinit var card1 : ImageView
@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var card12 : ImageView
     private var images= arrayListOf<ImageView>()
     private var cardIds = arrayListOf<Int>()
-    private lateinit var noButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +53,6 @@ class MainActivity : AppCompatActivity() {
         card12 = findViewById(cardIds[11])
         images= arrayListOf(card1, card2, card3, card4, card5, card6, card7, card8, card9, card10, card11, card12)
 
-        noButton = findViewById(R.id.not_set_button)
-        noButton.setOnClickListener{ noButton() }
         for (i in 0 until images.size){
             images[i].setOnClickListener{
                 if (selectedCards.size < 3) {
@@ -77,12 +74,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun fillBoard()
     {
-        if (board.deck.cards.isEmpty()){
+        if (game.deck.cards.isEmpty()){
             val resultText : TextView = findViewById(R.id.set_result)
             resultText.text = "No more cards left!"
         }
         else{
-            val tags = board.board
+            val tags = game.board
             for (i in 0 until tags.size){
                  images[i] = setCardImages(cardIds[i], tags[i])
             }
@@ -115,17 +112,6 @@ class MainActivity : AppCompatActivity() {
             if(imageIndex >= 0)
                 images[imageIndex].setColorFilter(color)
         }
-    }
-
-    private fun noButton()
-    {
-        val resultText : TextView = findViewById(R.id.set_result)
-        if(!isSet(card1.tag.toString(), card2.tag.toString(), card3.tag.toString()))
-        {
-            resultText.text = "Correct -- not a set"
-            //refillCards()
-        }
-        else resultText.text = "Actually, it's a set"
     }
 
     private fun isSet(card1: String, card2: String, card3: String) : Boolean
