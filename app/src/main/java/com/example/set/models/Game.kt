@@ -22,7 +22,7 @@ class Game{
         }
     }
 
-    fun boardContainsSet() : Boolean {
+    private fun boardContainsSet() : Boolean {
         for (i in 0 until board.size-2){
             for (j in i+1 until board.size-1){
                 for (k in j+1 until board.size){
@@ -34,7 +34,7 @@ class Game{
         return false
     }
 
-    fun isSet(card1: String, card2: String, card3: String) : Boolean
+    private fun isSet(card1: String, card2: String, card3: String) : Boolean
     {
         if (!boardContainsCards(card1, card2, card3)) return false
 
@@ -60,20 +60,40 @@ class Game{
     fun makeGuess(card1: String, card2: String, card3: String) : Boolean {
         if (gameWon || !isSet(card1, card2, card3)) return false
 
-        val cards = listOf( card1, card2, card3)
+        val guess = listOf( card1, card2, card3)
         if(deck.cards.isEmpty()){
-            cards.forEach { board.remove(it) }
+            guess.forEach { board.remove(it) }
             if (!boardContainsSet())
                 gameWon = true
         }
         else{
-            updateBoard(cards)
+            updateBoard(guess)
         }
         return true
     }
 
     private fun updateBoard(cards: List<String>){
-        //TODO
-    }
+        val indices = mutableListOf<Int>()
+        cards.forEach { indices.add(board.indexOf(it)) }
+        indices.sort()
+        cards.forEach { board.remove(it) }
 
+        var boardContainsSet = boardContainsSet()
+        if((board.size >= 12 && !boardContainsSet) || board.size < 12){
+            val refillCards = deck.drawCards()
+            for (i in 0 until indices.size){
+                board.add(indices[i], refillCards[i])
+            }
+        }
+
+        boardContainsSet = boardContainsSet()
+        while(!boardContainsSet){
+            if(deck.cards.isEmpty()){
+                gameWon = true
+                break
+            }
+            board.addAll(deck.drawCards())
+            boardContainsSet = boardContainsSet()
+        }
+    }
 }

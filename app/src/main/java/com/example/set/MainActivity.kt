@@ -96,10 +96,10 @@ class MainActivity : AppCompatActivity() {
     private fun validateCards()
     {
         val resultText : TextView = findViewById(R.id.set_result)
-        if(isSet(selectedCards[0], selectedCards[1], selectedCards[2]))
+        if(game.makeGuess(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
+            //TODO update card images
             resultText.text = "Correct!"
-            //refillCards()
         }
         else resultText.text = "Nope, is not a set"
         changeSelectedCardsFilter(Color.argb(0,0,0,0))
