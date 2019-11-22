@@ -79,18 +79,19 @@ class MainActivity : AppCompatActivity() {
             resultText.text = "No more cards left!"
         }
         else{
-            val tags = game.board
-            for (i in 0 until tags.size){
-                 images[i] = setCardImages(cardIds[i], tags[i])
-            }
+            setCardImages()
         }
     }
 
-    private fun setCardImages(cardId : Int, cardTag: String) : ImageView {
-        val card : ImageView = findViewById(cardId)
-        card.setImageResource(mapper.tagToResource.getValue(cardTag))
-        card.tag = cardTag
-        return card
+    private fun setCardImages() {
+        val boardSize = game.board.size
+        for (i in 0 until boardSize){
+            val card : ImageView = findViewById(cardIds[i])
+            card.setImageResource(mapper.tagToResource.getValue(game.board[i]))
+            card.setColorFilter(Color.argb(0,0,0,0))
+            card.tag = game.board[i]
+            images[i] = card
+        }
     }
 
     private fun validateCards()
@@ -98,39 +99,11 @@ class MainActivity : AppCompatActivity() {
         val resultText : TextView = findViewById(R.id.set_result)
         if(game.makeGuess(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
-            //TODO update card images
+            setCardImages()
             resultText.text = "Correct!"
         }
-        else resultText.text = "Nope, is not a set"
-        changeSelectedCardsFilter(Color.argb(0,0,0,0))
+        else { resultText.text = "Nope, is not a set"}
+
         selectedCards = mutableListOf()
     }
-
-    private fun changeSelectedCardsFilter(color : Int){
-        for(cardTag in selectedCards){
-            val imageIndex  = images.indexOfFirst { it.tag.toString() == cardTag }
-            if(imageIndex >= 0)
-                images[imageIndex].setColorFilter(color)
-        }
-    }
-
-    private fun isSet(card1: String, card2: String, card3: String) : Boolean
-    {
-        val card1Attrs = card1.split('_')
-        val card2Attrs = card2.split('_')
-        val card3Attrs = card3.split('_')
-        return validSet(card1Attrs[0], card2Attrs[0], card3Attrs[0]) &&
-                validSet(card1Attrs[1], card2Attrs[1], card3Attrs[1]) &&
-                validSet(card1Attrs[2], card2Attrs[2], card3Attrs[2]) &&
-                validSet(card1Attrs[3], card2Attrs[3], card3Attrs[3])
-    }
-
-    private fun validSet(attr1: String, attr2: String, attr3: String) : Boolean
-    {
-        return (attr1 == attr2 && attr2 == attr3) ||
-                (attr1 != attr2 && attr2 != attr3 && attr1 != attr3)
-    }
-
-
-
 }
