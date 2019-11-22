@@ -38,8 +38,6 @@ class Game{
     {
         if (!boardContainsCards(card1, card2, card3)) return false
 
-        if(card1 == "empty" || card2 == "empty" || card3 == "empty") return false
-
         val card1Attrs = card1.split('_')
         val card2Attrs = card2.split('_')
         val card3Attrs = card3.split('_')
