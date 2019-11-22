@@ -84,13 +84,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCardImages() {
+        println("board size: " + game.board.size + ". cardIds size: " + cardIds.size + ". images size: " + images.size)
         val boardSize = game.board.size
-        for (i in 0 until boardSize){
+        var i = 0
+        var j = 0
+        while (i < images.size){
             val card : ImageView = findViewById(cardIds[i])
-            card.setImageResource(mapper.tagToResource.getValue(game.board[i]))
             card.setColorFilter(Color.argb(0,0,0,0))
-            card.tag = game.board[i]
+            if (j < boardSize){
+                println("i: " + i)
+                card.setImageResource(mapper.tagToResource.getValue(game.board[i]))
+                card.tag = game.board[i]
+                j += 1
+            }
+            else{
+                card.setImageResource(mapper.tagToResource.getValue("empty"))
+                card.tag = "empty"
+            }
             images[i] = card
+            i += 1
         }
     }
 
@@ -99,11 +111,13 @@ class MainActivity : AppCompatActivity() {
         val resultText : TextView = findViewById(R.id.set_result)
         if(game.makeGuess(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
-            setCardImages()
-            resultText.text = "Correct!"
+            if(game.gameWon)
+                resultText.text = "You have won!"
+            else resultText.text = "Correct!"
         }
         else { resultText.text = "Nope, is not a set"}
 
         selectedCards = mutableListOf()
+        setCardImages()
     }
 }

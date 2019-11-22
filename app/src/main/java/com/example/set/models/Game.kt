@@ -38,6 +38,8 @@ class Game{
     {
         if (!boardContainsCards(card1, card2, card3)) return false
 
+        if(card1 == "empty" || card2 == "empty" || card3 == "empty") return false
+
         val card1Attrs = card1.split('_')
         val card2Attrs = card2.split('_')
         val card3Attrs = card3.split('_')
@@ -77,6 +79,8 @@ class Game{
         cards.forEach { indices.add(board.indexOf(it)) }
         indices.sort()
         cards.forEach { board.remove(it) }
+
+        if (deck.cards.isEmpty()) return
 
         var boardContainsSet = boardContainsSet()
         if((board.size >= 12 && !boardContainsSet) || board.size < 12){
