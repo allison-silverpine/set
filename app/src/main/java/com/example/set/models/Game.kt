@@ -34,6 +34,18 @@ class Game{
         return false
     }
 
+    fun findSet() : List<String> {
+        for (i in 0 until board.size-2){
+            for (j in i+1 until board.size-1){
+                for (k in j+1 until board.size){
+                    if (isSet(board[i], board[j], board[k]))
+                        return listOf(board[i], board[j], board[k])
+                }
+            }
+        }
+        return listOf()
+    }
+
     private fun isSet(card1: String, card2: String, card3: String) : Boolean
     {
         if (!boardContainsCards(card1, card2, card3)) return false

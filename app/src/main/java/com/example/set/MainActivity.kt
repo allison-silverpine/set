@@ -1,6 +1,7 @@
 package com.example.set
 
 import android.graphics.Color
+import com.daimajia.androidanimations.library.YoYo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -8,12 +9,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import com.daimajia.androidanimations.library.Techniques
 import com.example.set.models.Game
 import com.example.set.models.Mapper
 
 class MainActivity : AppCompatActivity() {
 
-    private val game = Game()
+    private var game = Game()
     private val mapper = Mapper()
     private var selectedCards : MutableList<String> = mutableListOf()
     private lateinit var card1 : ImageView
@@ -31,12 +34,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var card13 : ImageView
     private lateinit var card14 : ImageView
     private lateinit var card15 : ImageView
+    private lateinit var newGameButton : Button
+    private lateinit var hintButton : Button
     private var images= arrayListOf<ImageView>()
     private var cardIds = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        newGameButton = findViewById(R.id.new_button)
+        newGameButton.setOnClickListener { createNewGame() }
+        hintButton = findViewById(R.id.hint_button)
+        hintButton.setOnClickListener { showHint() }
         initializeBoard()
     }
 
@@ -114,11 +124,31 @@ class MainActivity : AppCompatActivity() {
         {
             if(game.gameWon)
                 resultText.text = "You have won!"
-            else resultText.text = "Correct!"
         }
-        else { resultText.text = "Nope, is not a set"}
+        else{
+            Toast.makeText(this, "Nope, not a set", Toast.LENGTH_SHORT).show()
+        }
 
         selectedCards = mutableListOf()
         setCardImages()
+    }
+
+    private fun createNewGame()
+    {
+        game = Game()
+        setCardImages()
+    }
+
+    private fun showHint(){
+        val set = game.findSet()
+        if (set.isEmpty())
+            Toast.makeText(this, "There is no set present!", Toast.LENGTH_SHORT).show()
+        else{
+            images.forEach {
+                if (it.tag.toString() == set[0] || it.tag.toString() == set[1]){
+                    YoYo.with(Techniques.Shake).duration(500).playOn(it)
+                }
+            }
+        }
     }
 }
