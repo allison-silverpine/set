@@ -1,13 +1,15 @@
 package com.example.set.models
 
+import java.util.*
 
-class Deck{
+
+class Deck(seed: Long?){
     lateinit var cards : MutableList<String>
         private set
 
-    init{ createDeck() }
+    init{ createDeck(seed) }
 
-    private fun createDeck() {
+    private fun createDeck(seed: Long?) {
         cards = mutableListOf()
         val numbers = listOf("one", "three", "six")
         val patterns = listOf("solid", "hollow", "striped")
@@ -23,7 +25,18 @@ class Deck{
                 }
             }
         }
-        cards.shuffle()
+        shuffleDeck(seed)
+    }
+
+    fun shuffleDeck(seed: Long?)
+    {
+        val r = if (seed == null) Random() else Random(seed)
+        for (i in cards.size-1 downTo 0){
+            val j = r.nextInt(i+1)
+            val tempCard = cards[i]
+            cards[i] = cards[j]
+            cards[j] = tempCard
+        }
     }
 
     fun drawCards() : List<String>{

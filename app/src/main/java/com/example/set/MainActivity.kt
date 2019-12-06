@@ -14,7 +14,8 @@ import com.example.set.models.Mapper
 
 class MainActivity : AppCompatActivity() {
 
-    private var game = Game()
+    private val tempSeed : Long? = 123457
+    private var game = Game(tempSeed)
     private val mapper = Mapper()
     private var selectedCards : MutableList<String> = mutableListOf()
     private lateinit var card1 : ImageView
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val seedValue : TextView = findViewById(R.id.seed)
+        seedValue.text = if (tempSeed == null) "" else getString(R.string.seed_value, tempSeed)
         newGameButton = findViewById(R.id.new_button)
         newGameButton.setOnClickListener { createNewGame() }
         hintButton = findViewById(R.id.hint_button)
@@ -147,7 +150,7 @@ class MainActivity : AppCompatActivity() {
     {
         val resultText : TextView = findViewById(R.id.set_result)
         resultText.text = ""
-        game = Game()
+        game = Game(tempSeed)
         setCardImages()
         setCardCount()
         chronometer.stop()

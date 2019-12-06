@@ -8,5 +8,6 @@
     <string name="card3">Card3</string>
     <string name="card_count">Cards Remaining: %1$d</string>
     <string name="time_elapsed">Time Elapsed: %1$s</string>
+    <string name="seed_value">Seed: %1$d</string>
     <string name="win_text">You have won!</string>
 </resources>

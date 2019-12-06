@@ -1,7 +1,8 @@
 package com.example.set.models
 
-class Game{
-    var deck = Deck()
+class Game (seed: Long?){
+    private var seedValue : Long? = seed
+    var deck = Deck(seedValue)
         private set
     var board: MutableList<String>
         private set
@@ -14,7 +15,9 @@ class Game{
         }
         while (!boardContainsSet()){
             deck.cards.addAll(board)
-            deck.cards.shuffle()
+            if(seedValue != null)
+                seedValue = seedValue!!.toLong() + 1
+            deck.shuffleDeck(seedValue)
             board.clear()
             for (i in 0 until 4){
                 board.addAll(deck.drawCards())
