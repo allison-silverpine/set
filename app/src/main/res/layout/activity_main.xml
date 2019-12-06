@@ -24,13 +24,27 @@
         android:id="@+id/cards_remaining"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cardCount"
+        android:text="@string/card_count"
         app:layout_constraintBottom_toTopOf="@+id/card2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.798"
-        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintVertical_bias="0.63"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:format="@string/time_elapsed"
+        app:layout_constraintBottom_toTopOf="@+id/card4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.34" />
 
     <ImageView
         android:id="@+id/card1"

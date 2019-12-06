@@ -5,11 +5,9 @@ import com.daimajia.androidanimations.library.YoYo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.daimajia.androidanimations.library.Techniques
 import com.example.set.models.Game
 import com.example.set.models.Mapper
@@ -36,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var card15 : ImageView
     private lateinit var newGameButton : Button
     private lateinit var hintButton : Button
+    private lateinit var chronometer : Chronometer
     private var images= arrayListOf<ImageView>()
     private var cardIds = arrayListOf<Int>()
 
@@ -90,11 +89,12 @@ class MainActivity : AppCompatActivity() {
         }
         setCardImages()
         setCardCount()
+        chronometer = findViewById(R.id.chronometer)
+        chronometer.start()
     }
 
 
     private fun setCardImages() {
-        println("board size: " + game.board.size + ". cardIds size: " + cardIds.size + ". images size: " + images.size)
         val boardSize = game.board.size
         var i = 0
         var j = 0
@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             val card : ImageView = findViewById(cardIds[i])
             card.setColorFilter(Color.argb(0,0,0,0))
             if (j < boardSize){
-                println("i: " + i)
                 card.setImageResource(mapper.tagToResource.getValue(game.board[i]))
                 card.visibility = View.VISIBLE
                 card.tag = game.board[i]
@@ -122,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     {
         val cardsRemaining : TextView = findViewById(R.id.cards_remaining)
         val cardCount = game.deck.cards.size + game.board.size
-        cardsRemaining.text = getString(R.string.cardCount, cardCount)
+        cardsRemaining.text = getString(R.string.card_count, cardCount)
     }
 
     private fun validateCards()
@@ -131,8 +130,10 @@ class MainActivity : AppCompatActivity() {
         if(game.makeGuess(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
             setCardCount()
-            if(game.gameWon)
+            if(game.gameWon) {
                 resultText.text = getString(R.string.win_text)
+                chronometer.stop()
+            }
         }
         else{
             Toast.makeText(this, "Nope, not a set", Toast.LENGTH_SHORT).show()
@@ -149,6 +150,9 @@ class MainActivity : AppCompatActivity() {
         game = Game()
         setCardImages()
         setCardCount()
+        chronometer.stop()
+        chronometer.base = SystemClock.elapsedRealtime()
+        chronometer.start()
     }
 
     private fun showHint(){
