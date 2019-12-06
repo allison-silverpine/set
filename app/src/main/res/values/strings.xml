@@ -6,4 +6,6 @@
     <string name="card1">Card1</string>
     <string name="card2">Card2</string>
     <string name="card3">Card3</string>
+    <string name="cardCount">Cards Remaining: %1$d</string>
+    <string name="win_text">You have won!</string>
 </resources>

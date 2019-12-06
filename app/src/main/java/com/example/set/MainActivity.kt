@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         setCardImages()
+        setCardCount()
     }
 
 
@@ -117,13 +118,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setCardCount()
+    {
+        val cardsRemaining : TextView = findViewById(R.id.cards_remaining)
+        val cardCount = game.deck.cards.size + game.board.size
+        cardsRemaining.text = getString(R.string.cardCount, cardCount)
+    }
+
     private fun validateCards()
     {
         val resultText : TextView = findViewById(R.id.set_result)
         if(game.makeGuess(selectedCards[0], selectedCards[1], selectedCards[2]))
         {
+            setCardCount()
             if(game.gameWon)
-                resultText.text = "You have won!"
+                resultText.text = getString(R.string.win_text)
         }
         else{
             Toast.makeText(this, "Nope, not a set", Toast.LENGTH_SHORT).show()
@@ -135,8 +144,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun createNewGame()
     {
+        val resultText : TextView = findViewById(R.id.set_result)
+        resultText.text = ""
         game = Game()
         setCardImages()
+        setCardCount()
     }
 
     private fun showHint(){
