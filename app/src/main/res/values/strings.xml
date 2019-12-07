@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Set</string>
-    <string name="title">Play Set</string>
+    <string name="title">Practice Set</string>
     <string name="yes_a_set">Yes, a set</string>
     <string name="not_a_set">Not a set</string>
     <string name="card1">Card1</string>
@@ -10,5 +10,9 @@
     <string name="time_elapsed">Time Elapsed: %1$s</string>
     <string name="seed_value">Seed: %1$d</string>
     <string name="win_text">You have won!</string>
-    <string name="start">Start</string>
+    <string name="start">Start Game</string>
+    <string name="seed_mode">Seed Mode</string>
+    <string name="timed_mode">Timed Mode</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
 </resources>

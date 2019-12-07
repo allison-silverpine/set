@@ -14,8 +14,8 @@ import com.example.set.models.Mapper
 
 class Main2Activity : AppCompatActivity() {
 
-    private val tempSeed : Long? = 123457
-    private var game = Game(tempSeed)
+    private var tempSeed : Long? = null
+    private lateinit var game : Game
     private val mapper = Mapper()
     private var selectedCards : MutableList<String> = mutableListOf()
     private lateinit var card1 : ImageView
@@ -43,13 +43,36 @@ class Main2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
+        val intent = intent
+        val seedMode = intent.getBooleanExtra("SeedMode", false)
+        val timedMode = intent.getBooleanExtra("TimedMode", true)
+
         val seedValue : TextView = findViewById(R.id.seed)
-        seedValue.text = if (tempSeed == null) "" else getString(R.string.seed_value, tempSeed)
+        if(seedMode)
+        {
+            tempSeed = 123457
+            seedValue.text = getString(R.string.seed_value, tempSeed)
+        }
+        else{
+            seedValue.text = ""
+        }
+
         newGameButton = findViewById(R.id.new_button)
         newGameButton.setOnClickListener { createNewGame() }
         hintButton = findViewById(R.id.hint_button)
         hintButton.setOnClickListener { showHint() }
+
+        game = Game(tempSeed)
         initializeBoard()
+
+        if(timedMode){
+            chronometer = findViewById(R.id.chronometer)
+            chronometer.start()
+        }
+        else{
+            chronometer = findViewById(R.id.chronometer)
+            chronometer.visibility = View.GONE
+        }
     }
 
     private fun initializeBoard()
@@ -92,8 +115,6 @@ class Main2Activity : AppCompatActivity() {
         }
         setCardImages()
         setCardCount()
-        chronometer = findViewById(R.id.chronometer)
-        chronometer.start()
     }
 
 
